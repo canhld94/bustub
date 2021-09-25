@@ -47,6 +47,11 @@ class LRUReplacer : public Replacer {
 
  private:
   // TODO(student): implement me!
+  // list of page currently in the replacer
+  std::list<frame_id_t*> pages;
+  // the replacer must thread-safe
+  std::mutex mtx;
+  // map from frame_id to list iterator
 };
 
 }  // namespace bustub
