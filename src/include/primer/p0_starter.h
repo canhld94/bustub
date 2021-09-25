@@ -13,11 +13,16 @@
 #pragma once
 
 #include <memory>
+#include <stdexcept>
+#include <vector>
+
+#include "common/exception.h"
 
 namespace bustub {
 
-/*
- * The base class defining a Matrix
+/**
+ * The Matrix type defines a common
+ * interface for matrix operations.
  */
 template <typename T>
 class Matrix {
@@ -55,6 +60,10 @@ class Matrix {
   virtual ~Matrix() { delete [] linear; }
 };
 
+/**
+ * The RowMatrix type is a concrete matrix implementation.
+ * It implements the interface defined by the Matrix type.
+ */
 template <typename T>
 class RowMatrix : public Matrix<T> {
  public:
@@ -96,13 +105,21 @@ class RowMatrix : public Matrix<T> {
   };
 
  private:
-  // 2D array containing the elements of the matrix in row-major format
-  // TODO(P0): Allocate the array of row pointers in the constructor. Use these pointers
-  // to point to corresponding elements of the 'linear' array.
-  // Don't forget to free up the array in the destructor.
+  /**
+   * A 2D array containing the elements of the matrix in row-major format.
+   *
+   * TODO(P0):
+   * - Allocate the array of row pointers in the constructor.
+   * - Use these pointers to point to corresponding elements of the `linear` array.
+   * - Don't forget to deallocate the array in the destructor.
+   */
   T **data_;
 };
 
+/**
+ * The RowMatrixOperations class defines operations
+ * that may be performed on instances of `RowMatrix`.
+ */
 template <typename T>
 class RowMatrixOperations {
  public:
@@ -111,8 +128,10 @@ class RowMatrixOperations {
   static std::unique_ptr<RowMatrix<T>> AddMatrices(std::unique_ptr<RowMatrix<T>> mat1,
                                                    std::unique_ptr<RowMatrix<T>> mat2) {
     // TODO(P0): Add code
-    int rows1 = mat1->GetRows(), cols1 = mat1->GetColumns();
-    int rows2 = mat2->GetRows(), cols2 = mat2->GetColumns();
+    int rows1 = mat1->GetRows();
+    int cols1 = mat1->GetColumns();
+    int rows2 = mat2->GetRows();
+    int cols2 = mat2->GetColumns();
     if (rows1 != rows2 || cols1 != cols2)
       return std::unique_ptr<RowMatrix<T>>(nullptr);
     RowMatrix<T> *ret = new RowMatrix<T>(rows1, cols1);
@@ -129,8 +148,10 @@ class RowMatrixOperations {
   static std::unique_ptr<RowMatrix<T>> MultiplyMatrices(std::unique_ptr<RowMatrix<T>> mat1,
                                                         std::unique_ptr<RowMatrix<T>> mat2) {
     // TODO(P0): Add code
-    int rows1 = mat1->GetRows(), cols1 = mat1->GetColumns();
-    int rows2 = mat2->GetRows(), cols2 = mat2->GetColumns();
+    int rows1 = mat1->GetRows();
+    int cols1 = mat1->GetColumns();
+    int rows2 = mat2->GetRows();
+    int cols2 = mat2->GetColumns();
     if (cols1 != rows2)
       return std::unique_ptr<RowMatrix<T>>(nullptr);
     RowMatrix<T> *ret = new RowMatrix<T>(rows1, cols2);
