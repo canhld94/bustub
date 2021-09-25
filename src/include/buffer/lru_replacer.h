@@ -15,6 +15,7 @@
 #include <list>
 #include <mutex>  // NOLINT
 #include <vector>
+#include <map>
 
 #include "buffer/replacer.h"
 #include "common/config.h"
@@ -48,10 +49,11 @@ class LRUReplacer : public Replacer {
  private:
   // TODO(student): implement me!
   // list of page currently in the replacer
-  std::list<frame_id_t*> pages;
+  std::list<frame_id_t> frames;
   // the replacer must thread-safe
   std::mutex mtx;
   // map from frame_id to list iterator
+  std::map<frame_id_t, std::list<frame_id_t>::iterator> map_frame_to_it;
 };
 
 }  // namespace bustub
